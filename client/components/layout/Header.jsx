@@ -6,13 +6,26 @@ Header = React.createClass({
     }
   },
   handleLogout(){
-    Meteor.Logout;
+    Meteor.logout();
   },
   render(){
     let loginButton;
     let {currentUser} = this.data;
     if(currentUser) {
-      loginButton = <li><a href="#" onClick={ this.handleLogout }>log out</a></li>
+      loginButton =
+        <li className="username">
+          <a href="/user/me">{currentUser.username}</a>
+            <div className="popupMenu below">
+              <ul>
+                <li>
+                  <a href="/user/preferences">Preferences</a>
+                </li>
+                <li>
+                  <a href="#" onClick={ this.handleLogout }>Logout</a>
+                </li>
+              </ul>
+            </div>
+        </li>
     } else {
       loginButton = <li><a href="/login">Login</a></li>
     }

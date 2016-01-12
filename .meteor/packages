@@ -26,3 +26,5 @@ reywood:bootstrap3-sass
 accounts-password
 accounts-ui
 accounts-google
+pcel:serialize
+msavin:mongol

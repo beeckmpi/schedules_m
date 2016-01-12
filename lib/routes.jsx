@@ -8,6 +8,11 @@ FlowRouter.route('/login', {
   action(params) {
     renderMainLayoutWith(<Login />);
   }
+});
+FlowRouter.route('/register', {
+  action(params) {
+    renderMainLayoutWith(<Register />);
+  }
 })
 
 function renderMainLayoutWith(component) {
