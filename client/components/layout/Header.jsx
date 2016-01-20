@@ -14,7 +14,7 @@ Header = React.createClass({
     if(currentUser) {
       loginButton =
         <li className="username">
-          <a href="/user/me">{currentUser.username}</a>
+          <a href="/user/me">{currentUser.profile.first_name} {currentUser.profile.last_name}</a>
             <div className="popupMenu below">
               <ul>
                 <li>

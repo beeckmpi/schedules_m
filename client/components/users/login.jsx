@@ -9,6 +9,7 @@ Login = React.createClass({
     event.preventDefault();
     var self = this;
     var data = $(event.target).serializeJSON();
+    
     console.log(data);
     Meteor.loginWithPassword(data.username, data.password, function(err){
       if (err) {
@@ -16,7 +17,7 @@ Login = React.createClass({
         var message = err;
       } else {
         var message = 'You have successfully created an account. in a couple of minutes a mail will be sent to confirm your account.';
-        redirect('/');
+        FlowRouter.redirect('/');
       }
     });
     return false;

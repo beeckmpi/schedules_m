@@ -9,6 +9,10 @@ Register = React.createClass({
     event.preventDefault();
     var self = this;
     var data = $(event.target).serializeJSON();
+    data.profile = {};
+    data.profile.first_name = data.first_name;
+    data.profile.last_name = data.last_name;
+    delete data.first_name, data.last_name;
     console.log(data);
     Accounts.createUser(data, function(err){
       if (err) {

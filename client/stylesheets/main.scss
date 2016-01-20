@@ -4,10 +4,14 @@
   border-bottom: 1px solid #ccc;
   top: 0px;
   height: 60px;
-  padding: 8px 15px;
+  padding: 8px 375px 8px 375px;
   position: fixed;
   width: 100%;
 }
+.container {
+  margin: 60px 360px 60px 0px;
+}
+
 
 .container-wrapper {
   margin: 60px 0px;
@@ -20,12 +24,13 @@
   padding: 8px 15px;
   position: fixed;
   width: 100%;
+  margin-left: 300px;
 }
 
 nav {
   top: 0px;
   height: 60px;
-  padding: 8px 15px;
+  padding: 8px 315px;
   position: absolute;
   width: 100%;
 }
@@ -63,13 +68,20 @@ nav ul.right li a:hover {
   font-size: smaller;
 }
 
-input {
+input, select {
   border: 0px dashed #5bc0de;
   border-width: 0px 0px 1px 0px;
-  margin: 5px 10% 10px 10%;
   outline: none;
   padding-bottom: 4px;
-  width: 80%;
+  width: 70%;
+}
+
+input {
+  margin: 5px 10% 10px 10%;
+}
+
+select {
+  margin: 5px 9% 10px 9%;
 }
 
 #register button, #login button {
@@ -131,7 +143,7 @@ a.brand-logo:hover {
 .popupMenu {
   position: absolute;
   background: #fff;
-  border: 1px solid #888;
+  border: 1px solid #BBB;
   right: -3px;
   border-radius: 5px;
   font-size: 0.85em;
@@ -159,6 +171,80 @@ a.brand-logo:hover {
   color: #333;
   white-space: nowrap;
 }
-.popupMenu ul li a:hover {
+.popupMenu ul li a:hover, .popupMenu ul li a:active  {
   background-color: #EFEFEF;
+  text-decoration: none;
+}
+
+aside.left {
+  min-width: 300px;
+  position: fixed;
+  left: 10px; top: 40px;
+}
+.preferencesMenu {
+  margin: 40px 15px;
+}
+
+.preferencesMenu ul {
+  background: #fff;
+  padding: 0 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.preferencesMenu ul li {
+  width: 100%;
+  margin: 0 0;
+  list-style: none;
+  padding: 4px 8px;
+  border-bottom: 1px solid #ccc;
+}
+
+.preferencesMenu ul li:last-child {
+  border-bottom: 0px solid #ccc;
+}
+.preferencesMenu ul li a {
+  display: block;
+  text-decoration: none;
+  color: #444;
+  position: relative
+}
+
+.preferencesMenu ul li a i {
+  position: absolute;
+  right: 0px;
+}
+.preferencesMenu ul li.active {
+  background: #80deea;
+}
+
+.PreferencesContent
+{
+  margin-left: 300px;
+}
+
+#account {
+  max-width: 600px;
+}
+
+.form-information {
+  margin-left: 165px;
+  font-size: x-small;
+  color: #444;
+}
+
+.form-item label {
+  display: inline-block;
+  width: 150px;
+  text-align: right;
+}
+
+.PreferencesContent .form-item input {
+  display: inline-block;
+  margin: 10px 0 10px 15px;
+}
+
+.PreferencesContent .form-item select {
+  display: inline-block;
+  margin: 10px -5px 10px 13px;
 }
