@@ -22,9 +22,12 @@ react
 kadira:flow-router
 kadira:react-layout
 fourseven:scss
-reywood:bootstrap3-sass
 accounts-password
 accounts-ui
 accounts-google
 pcel:serialize
 msavin:mongol
+risul:moment-timezone
+izzilab:material-ui
+poetic:materialize-scss
+azfx:react-motion

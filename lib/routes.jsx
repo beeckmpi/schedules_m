@@ -21,7 +21,7 @@ FlowRouter.route('/user/preferences', {
 });
 FlowRouter.route('/user/preferences/notifications', {
   action(params) {
-    renderMainLayoutWith(<Notifications />);
+    renderMainLayoutWith(<Notifications />, document.getElementById('react-root'));
   }
 });
 FlowRouter.route('/user/preferences/password', {

@@ -1,3 +1,12 @@
+injectTapEventPlugin();
+
+var {
+    RaisedButton,
+    Paper,
+    TextField,
+    Styles,
+    } = MUI;
+var { ThemeManager, LightRawTheme } = Styles;
 Password = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData(){
@@ -5,44 +14,54 @@ Password = React.createClass({
       currentUser: Meteor.user()
     }
   },
+  getInitialState(){
+    return {hideInput: true};
+  },
+  onClick: function() {
+        this.setState({ hideInput: false });
+    },
   handleLogout(){
     Meteor.Logout;
+  },
+  selectTimezone(hours){
+    var d = new Date();
+    var timezone = d.getTimezoneOffset();
+    if ((hours*60)==timezone){
+      return 'selected';
+    } else {
+      return '';
+    }
   },
   render(){
     let {currentUser} = this.data;
 
     return (
-      <section className="container">
-        <aside className="left">
-          <div className="preferencesMenu">
-            <h3>User preferences</h3>
-            <ul>
-              <li><a href="/user/preferences">Account<i className="glyphicon glyphicon-menu-right"></i></a></li>
-              <li><a href="/user/preferences/notifications">Notications<i className="glyphicon glyphicon-menu-right"></i></a></li>
-              <li className="active"><a href="/user/preferences/password">Password<i className="glyphicon glyphicon-menu-right"></i></a></li>
-              <li><a href="/user/preferences/picture">Picture<i className="glyphicon glyphicon-menu-right"></i></a></li>
-            </ul>
-          </div>
-        </aside>
-        <section className="PreferencesContent">
+      <Paper className="container row" style={{margin: "10px auto", padding: '15px 0px'}}>
+        <section className="col s12 m4">
+            <h5>User preferences</h5>
+            <div className="collection">
+              <a href="/user/preferences" className="collection-item">Account<i className="glyphicon glyphicon-menu-right"></i></a>
+              <a href="/user/preferences/notifications" className="collection-item">Notications<i className="glyphicon glyphicon-menu-right"></i></a>
+              <a href="/user/preferences/password" className="collection-item active">Password<i className="glyphicon glyphicon-menu-right"></i></a>
+              <a href="/user/preferences/picture" className="collection-item">Picture<i className="glyphicon glyphicon-menu-right"></i></a>
+            </div>
+        </section>
+        <section className="PreferencesContent col s12 m8">
           <div>
-            <form id="account">
-              <h3>Password</h3>
-              <h5>Change your password</h5>
-                <div className="form-item">
-                  <label for="oldPassword">Current Password</label>
-                  <input type="Password" name="oldPassword" placeholder="Current Password"></input>
-                  <div className="form-information">The password you have been using.</div>
+            <form id="account"  onSubmit={this.onSubmit}>
+              <h5>Password</h5>
+              <h6>Change your password</h6>
+                <div className="input-field">
+                  <input type="Password" name="oldPassword"  className="validate"></input>
+                  <label for="oldPassword" style={{left: '0px'}}>Current Password</label>
                 </div>
-                <div className="form-item">
-                  <label for="newPassword">New Password</label>
-                  <input type="Password" name="newPassword" placeholder="New Password"></input>
-                  <div className="form-information">The password you want to be using.</div>
+                <div className="input-field">
+                  <input type="Password" name="newPassword" className="validate"></input>
+                  <label for="newPassword" style={{left: '0px'}}>New Password</label>
                 </div>
-                <div className="form-item">
-                  <label for="repeatPassword">Repeat new Password</label>
-                  <input type="Password" name="repeatPassword" placeholder="Repeat new Password"></input>
-                  <div className="form-information">The password you want to be using, again...</div>
+                <div className="input-field">
+                  <input type="Password" name="repeatPassword" className="validate"></input>
+                  <label for="repeatPassword" style={{left: '0px'}}>Repeat new Password</label>
                 </div>
                 <div className="form-item">
                   <label></label>
@@ -51,7 +70,7 @@ Password = React.createClass({
             </form>
           </div>
         </section>
-      </section>
+      </Paper>
     )
   }
 });

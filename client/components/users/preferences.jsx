@@ -1,3 +1,13 @@
+injectTapEventPlugin();
+
+var {
+    RaisedButton,
+    Paper,
+    TextField,
+    Styles,
+    SelectField,
+    } = MUI;
+var { ThemeManager, LightRawTheme } = Styles;
 Preferences = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData(){
@@ -5,49 +15,65 @@ Preferences = React.createClass({
       currentUser: Meteor.user()
     }
   },
+  onClick: function() {
+    this.setState({ hideInput: false });
+  },
+  onChange: function(event){
+    var id = event.target.id;
+    console.log(id);
+    this.data.currentUser[id] = event.target.value;
+  },
   handleLogout(){
     Meteor.Logout;
   },
+  selectTimezone(){
+    var d = new Date();
+    var timezone = d.getTimezoneOffset();
+    if (Math.sign(timezone)==1){
+      timezone = -timezone;
+    } else if (Math.sign(timezone)==-1){
+      timezone = Math.abs(timezone);
+    }
+    timezone = timezone/60;
+    return timezone;
+  },
   render(){
     let {currentUser} = this.data;
-
     return (
-      <section className="container">
-        <aside className="left">
-          <div className="preferencesMenu">
-            <h3>User preferences</h3>
-            <ul>
-              <li className="active"><a href="/user/preferences">Account<i className="glyphicon glyphicon-menu-right"></i></a></li>
-              <li><a href="/user/preferences/notifications">Notications<i className="glyphicon glyphicon-menu-right"></i></a></li>
-              <li><a href="/user/preferences/password">Password<i className="glyphicon glyphicon-menu-right"></i></a></li>
-              <li><a href="/user/preferences/picture">Picture<i className="glyphicon glyphicon-menu-right"></i></a></li>
-            </ul>
-          </div>
-        </aside>
-        <section className="PreferencesContent">
+      <Paper className="container row" style={{margin: "10px auto", padding: '15px 0px'}}>
+        <div className="col s12 m4">
+            <h5>User preferences</h5>
+            <div className="collection">
+              <a href="/user/preferences" className="collection-item active">Account<i className="glyphicon glyphicon-menu-right"></i></a>
+              <a href="/user/preferences/notifications" className="collection-item">Notications<i className="glyphicon glyphicon-menu-right"></i></a>
+              <a href="/user/preferences/password" className="collection-item">Password<i className="glyphicon glyphicon-menu-right"></i></a>
+              <a href="/user/preferences/picture" className="collection-item">Picture<i className="glyphicon glyphicon-menu-right"></i></a>
+            </div>
+        </div>
+        <section className="PreferencesContent col s12 m8">
           <div>
             <form id="account">
-              <h3>Account</h3>
-              <h5>Change your account information</h5>
-              <div className="form-item">
-                <label for="first-name">Username</label>
-                <input type="text" name="first-name" placeholder="Username" value={currentUser.username} />
+              <h5>Account</h5>
+              <h6>Change your account information</h6>
+              <a href="#edit" onClick={this.onClick}>Edit information</a>
+              <div className="input-field">
+                <input id="username" name="username" defaultValue={this.data.currentUser.username} type="text" class="validate" />
+                <label for="username" className="active" style={{left: '0px'}}>username</label>
               </div>
-              <div className="form-item">
-                <label for="first-name">First Name</label>
-                <input type="text" name="first-name" placeholder="First Name" value={currentUser.profile.first_name}/>
+              <div className="input-field">
+                <input id="first_name" name="first_name" type="text" class="validate" defaultValue={currentUser.profile.first_name}/>
+                <label for="first_name" className="active" style={{left: '0px'}}>First Name</label>
               </div>
-              <div className="form-item">
-                <label for="last-name">Last Name</label>
-                <input type="text" name="last-name" placeholder="Last Name" value={currentUser.profile.last_name} />
+              <div className="input-field">
+                <input id="last_name" name="last_name" type="text" class="validate" defaultValue={currentUser.profile.last_name}/>
+                <label for="last_name" className="active" style={{left: '0px'}}>Last Name</label>
               </div>
-              <div className="form-item">
-                <label for="last-name">Email Address</label>
-                <input type="email" name="last-name" placeholder="Email Address" value={currentUser.emails[0]['address']} />
+              <div className="input-field">
+                <input id="email" name="email" type="email" class="validate" defaultValue={currentUser.emails[0]['address']}/>
+                <label for="email" className="active" style={{left: '0px'}}>Email</label>
               </div>
-              <div className="form-item">
-                <label for="timezone">Timezone</label>
-                <select id="timezone">
+              <div>
+                <SelectField defaultValue={this.selectTimezone()} floatingLabelText="Timezone">
                 	<option timeZoneId="1" gmtAdjustment="GMT-12:00" useDaylightTime="0" value="-12">(GMT-12:00) International Date Line West</option>
                 	<option timeZoneId="2" gmtAdjustment="GMT-11:00" useDaylightTime="0" value="-11">(GMT-11:00) Midway Island, Samoa</option>
                 	<option timeZoneId="3" gmtAdjustment="GMT-10:00" useDaylightTime="0" value="-10">(GMT-10:00) Hawaii</option>
@@ -55,19 +81,19 @@ Preferences = React.createClass({
                 	<option timeZoneId="5" gmtAdjustment="GMT-08:00" useDaylightTime="1" value="-8">(GMT-08:00) Pacific Time (US & Canada)</option>
                 	<option timeZoneId="6" gmtAdjustment="GMT-08:00" useDaylightTime="1" value="-8">(GMT-08:00) Tijuana, Baja California</option>
                 	<option timeZoneId="7" gmtAdjustment="GMT-07:00" useDaylightTime="0" value="-7">(GMT-07:00) Arizona</option>
-                	<option timeZoneId="8" gmtAdjustment="GMT-07:00" useDaylightTime="1" value="-7">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
-                	<option timeZoneId="9" gmtAdjustment="GMT-07:00" useDaylightTime="1" value="-7">(GMT-07:00) Mountain Time (US & Canada)</option>
-                	<option timeZoneId="10" gmtAdjustment="GMT-06:00" useDaylightTime="0" value="-6">(GMT-06:00) Central America</option>
-                	<option timeZoneId="11" gmtAdjustment="GMT-06:00" useDaylightTime="1" value="-6">(GMT-06:00) Central Time (US & Canada)</option>
-                	<option timeZoneId="12" gmtAdjustment="GMT-06:00" useDaylightTime="1" value="-6">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>
-                	<option timeZoneId="13" gmtAdjustment="GMT-06:00" useDaylightTime="0" value="-6">(GMT-06:00) Saskatchewan</option>
-                	<option timeZoneId="14" gmtAdjustment="GMT-05:00" useDaylightTime="0" value="-5">(GMT-05:00) Bogota, Lima, Quito, Rio Branco</option>
-                	<option timeZoneId="15" gmtAdjustment="GMT-05:00" useDaylightTime="1" value="-5">(GMT-05:00) Eastern Time (US & Canada)</option>
-                	<option timeZoneId="16" gmtAdjustment="GMT-05:00" useDaylightTime="1" value="-5">(GMT-05:00) Indiana (East)</option>
-                	<option timeZoneId="17" gmtAdjustment="GMT-04:00" useDaylightTime="1" value="-4">(GMT-04:00) Atlantic Time (Canada)</option>
-                	<option timeZoneId="18" gmtAdjustment="GMT-04:00" useDaylightTime="0" value="-4">(GMT-04:00) Caracas, La Paz</option>
-                	<option timeZoneId="19" gmtAdjustment="GMT-04:00" useDaylightTime="0" value="-4">(GMT-04:00) Manaus</option>
-                	<option timeZoneId="20" gmtAdjustment="GMT-04:00" useDaylightTime="1" value="-4">(GMT-04:00) Santiago</option>
+                	<option timeZoneId="8"  gmtAdjustment="GMT-07:00" useDaylightTime="1" value="-7">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
+                	<option timeZoneId="9"  gmtAdjustment="GMT-07:00" useDaylightTime="1" value="-7">(GMT-07:00) Mountain Time (US & Canada)</option>
+                	<option timeZoneId="10"  gmtAdjustment="GMT-06:00" useDaylightTime="0" value="-6">(GMT-06:00) Central America</option>
+                	<option timeZoneId="11"  gmtAdjustment="GMT-06:00" useDaylightTime="1" value="-6">(GMT-06:00) Central Time (US & Canada)</option>
+                	<option timeZoneId="12"  gmtAdjustment="GMT-06:00" useDaylightTime="1" value="-6">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>
+                	<option timeZoneId="13"  gmtAdjustment="GMT-06:00" useDaylightTime="0" value="-6">(GMT-06:00) Saskatchewan</option>
+                	<option timeZoneId="14"  gmtAdjustment="GMT-05:00" useDaylightTime="0" value="-5">(GMT-05:00) Bogota, Lima, Quito, Rio Branco</option>
+                	<option timeZoneId="15"  gmtAdjustment="GMT-05:00" useDaylightTime="1" value="-5">(GMT-05:00) Eastern Time (US & Canada)</option>
+                	<option timeZoneId="16"  gmtAdjustment="GMT-05:00" useDaylightTime="1" value="-5">(GMT-05:00) Indiana (East)</option>
+                	<option timeZoneId="17"  gmtAdjustment="GMT-04:00" useDaylightTime="1" value="-4">(GMT-04:00) Atlantic Time (Canada)</option>
+                	<option timeZoneId="18"  gmtAdjustment="GMT-04:00" useDaylightTime="0" value="-4">(GMT-04:00) Caracas, La Paz</option>
+                	<option timeZoneId="19"  gmtAdjustment="GMT-04:00" useDaylightTime="0" value="-4">(GMT-04:00) Manaus</option>
+                	<option timeZoneId="20"  gmtAdjustment="GMT-04:00" useDaylightTime="1" value="-4">(GMT-04:00) Santiago</option>
                 	<option timeZoneId="21" gmtAdjustment="GMT-03:30" useDaylightTime="1" value="-3.5">(GMT-03:30) Newfoundland</option>
                 	<option timeZoneId="22" gmtAdjustment="GMT-03:00" useDaylightTime="1" value="-3">(GMT-03:00) Brasilia</option>
                 	<option timeZoneId="23" gmtAdjustment="GMT-03:00" useDaylightTime="0" value="-3">(GMT-03:00) Buenos Aires, Georgetown</option>
@@ -130,14 +156,13 @@ Preferences = React.createClass({
                   <option timeZoneId="80" gmtAdjustment="GMT+12:00" useDaylightTime="1" value="12">(GMT+12:00) Auckland, Wellington</option>
                   <option timeZoneId="81" gmtAdjustment="GMT+12:00" useDaylightTime="0" value="12">(GMT+12:00) Fiji, Kamchatka, Marshall Is.</option>
                   <option timeZoneId="82" gmtAdjustment="GMT+13:00" useDaylightTime="0" value="13">(GMT+13:00) Nuku'alofa</option>
-                </select>
+                </SelectField>
               </div>
               <div className="form-item">
-                 <label for="timedisplay">Time display</label>
-                 <select id="timedisplay" name="timedisplay">
+                 <SelectField defaultValue={this.selectTimezone()} floatingLabelText="Time display">
                    <option value="12h">12h (am & pm)</option>
                    <option value="24h">24u</option>
-                 </select>
+                 </SelectField>
               </div>
               <div className="form-item">
                 <label></label>
@@ -146,7 +171,7 @@ Preferences = React.createClass({
             </form>
           </div>
         </section>
-      </section>
+      </Paper>
     )
   }
 });
